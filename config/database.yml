@@ -29,9 +29,7 @@ test:
   timeout: 5000
 
 production:
-  <<: *default
-  #database: blog_production
-  #username: myapp
-  #password: <%= ENV['MYAPP_DATABASE_PASSWORD'] %>
-  #host:
-  #port:
+  adapter: sqlite3
+  database: db/production.sqlite3
+  pool: 5
+  timeout: 5000
