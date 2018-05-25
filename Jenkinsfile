@@ -65,9 +65,9 @@ pipeline {
         script {
           openshift.withCluster("MiniShift"){
             openshift.withProject(){
-              def bc = openshift.selector('dc', "${app_name}")
+              def dc = openshift.selector('dc', "rails-foo")
               echo "rollout App ${openshift.project()} in cluster ${openshift.cluster()}"
-              bc.rollout()
+              dc.rollout()
             }
           }
         }
