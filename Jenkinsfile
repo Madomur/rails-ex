@@ -50,12 +50,11 @@ pipeline {
       steps {
         script {
           openshift.withCluster("MiniShift"){
-            def bc = openshift.selector('bc', "${app_name}")
             //openshift.newApp('https://github.com/Madomur/rails-ex.git').narrow('bc')
             openshift.withProject(){
+              def bc = openshift.selector('bc', "${app_name}")
 
               echo "update new App ${openshift.project()} in cluster ${openshift.cluster()}"
-              // bc.description()
             }
           }
         }
