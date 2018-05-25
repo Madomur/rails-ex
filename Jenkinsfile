@@ -8,7 +8,7 @@ pipeline {
   environment {
     baseImageTag = "v1.0.0"
     baseImageName = "centos/ruby-22-centos7"
-    s2iImageNAme = "huk24/ruby-hello-world"
+    s2iImageNAme = "huk24/rails-ex"
     project_name = "huk24"
   }
 
@@ -18,7 +18,7 @@ pipeline {
         expression {
           openshift.withCluster("MiniShift"){
             openshift.withProject("${project_name}"){
-              return !openshift.selector('bc', 'ruby-hello-world').exists();
+              return !openshift.selector('bc', 'rails-ex').exists();
             }
           }
         }
@@ -27,7 +27,7 @@ pipeline {
         script {
           openshift.withCluster("MiniShift"){
             openshift.withProject("${project_name}"){
-              openshift.newApp('https://github.com/Madomur/ruby-hello-world.git')
+              openshift.newApp('https://github.com/Madomur/rails-ex.git')
 
               echo "create new App ${openshift.project()} in cluster ${openshift.cluster()}"
             }
@@ -41,8 +41,8 @@ pipeline {
         expression {
           openshift.withCluster("MiniShift"){
             openshift.withProject("${project_name}"){
-              // echo "check ${openshift.selector('bc', 'ruby-hello-world')}"
-              return openshift.selector('bc', 'ruby-hello-world').exists();
+              // echo "check ${openshift.selector('bc', 'rails-ex')}"
+              return openshift.selector('bc', 'rails-ex').exists();
             }
           }
         }
@@ -50,8 +50,8 @@ pipeline {
       steps {
         script {
           openshift.withCluster("MiniShift"){
-            def bc = openshift.selector('bc', 'ruby-hello-world')
-            //openshift.newApp('https://github.com/Madomur/ruby-hello-world.git').narrow('bc')
+            def bc = openshift.selector('bc', 'rails-ex')
+            //openshift.newApp('https://github.com/Madomur/rails-ex.git').narrow('bc')
             openshift.withProject("${project_name}"){
 
               echo "update new App ${openshift.project()} in cluster ${openshift.cluster()}"
