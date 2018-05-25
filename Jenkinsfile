@@ -60,17 +60,17 @@ pipeline {
         }
       }
     }
-    stage ('deploy APP') {
-      steps {
-        script {
-          openshift.withCluster("MiniShift"){
-            openshift.withProject(){
-              def bc = openshift.selector('bc', "${app_name}")
-              bc.rollout()
-            }
-          }
-        }
-      }
-    }
+    // stage ('deploy APP') {
+    //   steps {
+    //     script {
+    //       openshift.withCluster("MiniShift"){
+    //         openshift.withProject(){
+    //           def bc = openshift.selector('bc', "${app_name}")
+    //           bc.rollout()
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
   }
 }
