@@ -10,6 +10,7 @@ pipeline {
     baseImageName = "centos/ruby-22-centos7"
     s2iImageNAme = "huk24/rails-ex"
     project_name = "huk24"
+    app_name = "rails-ex"
   }
 
   stages {
@@ -17,8 +18,8 @@ pipeline {
       when {
         expression {
           openshift.withCluster("MiniShift"){
-            openshift.withProject("${project_name}"){
-              return !openshift.selector('bc', 'rails-ex').exists();
+            openshift.withProject(){
+              return !openshift.selector('bc', "${app_name}").exists();
             }
           }
         }
@@ -26,7 +27,7 @@ pipeline {
       steps {
         script {
           openshift.withCluster("MiniShift"){
-            openshift.withProject("${project_name}"){
+            openshift.withProject(){
               openshift.newApp('https://github.com/Madomur/rails-ex.git')
               echo "create new App ${openshift.project()} in cluster ${openshift.cluster()}"
             }
@@ -39,9 +40,9 @@ pipeline {
       when {
         expression {
           openshift.withCluster("MiniShift"){
-            openshift.withProject("${project_name}"){
-              // echo "check ${openshift.selector('bc', 'rails-ex')}"
-              return openshift.selector('bc', 'rails-ex').exists();
+            openshift.withProject(){
+              // echo "check ${openshift.selector('bc', "${app_name}")}"
+              return openshift.selector('bc', "${app_name}").exists();
             }
           }
         }
@@ -49,9 +50,9 @@ pipeline {
       steps {
         script {
           openshift.withCluster("MiniShift"){
-            def bc = openshift.selector('bc', 'rails-ex')
+            def bc = openshift.selector('bc', "${app_name}")
             //openshift.newApp('https://github.com/Madomur/rails-ex.git').narrow('bc')
-            openshift.withProject("${project_name}"){
+            openshift.withProject(){
 
               echo "update new App ${openshift.project()} in cluster ${openshift.cluster()}"
               // bc.description()
@@ -64,8 +65,8 @@ pipeline {
       steps {
         script {
           openshift.withCluster("MiniShift"){
-            openshift.withProject("${project_name}"){
-              def bc = openshift.selector('bc', 'rails-ex')
+            openshift.withProject(){
+              def bc = openshift.selector('bc', "${app_name}")
               bc.rollout()
             }
           }
