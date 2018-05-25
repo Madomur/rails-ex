@@ -72,6 +72,18 @@ pipeline {
           }
         }
       }
+    },
+
+    stage('tag') {
+      steps {
+        script {
+          openshift.withCluster("MiniShift"){
+            openshift.withProject(){
+              openshift.tag("${app_name}:latest", "${app_name}-rails:latest")
+            }
+          }
+        }
+      }
     }
   }
 }
