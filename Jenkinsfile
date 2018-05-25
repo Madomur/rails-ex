@@ -72,7 +72,7 @@ pipeline {
           }
         }
       }
-    },
+    }
 
     stage('tag') {
       steps {
