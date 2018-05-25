@@ -28,7 +28,6 @@ pipeline {
           openshift.withCluster("MiniShift"){
             openshift.withProject("${project_name}"){
               openshift.newApp('https://github.com/Madomur/rails-ex.git')
-
               echo "create new App ${openshift.project()} in cluster ${openshift.cluster()}"
             }
           }
@@ -56,6 +55,18 @@ pipeline {
 
               echo "update new App ${openshift.project()} in cluster ${openshift.cluster()}"
               bc.startBuild()
+            }
+          }
+        }
+      }
+    }
+    stage ('deploy APP') {
+      steps {
+        script {
+          openshift.withCluster("MiniShift"){
+            openshift.withProject("${project_name}"){
+              def bc = openshift.selector('bc', 'rails-ex')
+              bc.deploy()
             }
           }
         }
