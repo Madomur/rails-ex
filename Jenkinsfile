@@ -54,7 +54,7 @@ pipeline {
             openshift.withProject("${project_name}"){
 
               echo "update new App ${openshift.project()} in cluster ${openshift.cluster()}"
-              bc.description()
+              // bc.description()
             }
           }
         }
