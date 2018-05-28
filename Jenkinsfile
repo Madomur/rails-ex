@@ -67,6 +67,7 @@ pipeline {
             openshift.withProject(){
               def dc = openshift.selector('dc', "rails-foo")
               echo "rollout App ${dc.name()} in ${openshift.project()} in cluster ${openshift.cluster()}"
+              dc.describe()
               dc.rollout()
             }
           }
