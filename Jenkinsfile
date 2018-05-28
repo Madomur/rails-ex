@@ -56,7 +56,7 @@ pipeline {
               def bc = openshift.selector('bc', "${app_name}")
               bc.describe()
               echo "update new App ${openshift.project()} in cluster ${openshift.cluster()}"
-              bc.startBuild()
+              // bc.startBuild()
             }
           }
         }
