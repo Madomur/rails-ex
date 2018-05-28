@@ -36,32 +36,32 @@ pipeline {
       }
     }
 
-    // stage('update App') {
-    //   when {
-    //     expression {
-    //       openshift.withCluster("MiniShift"){
-    //         openshift.withProject(){
-    //           // echo "check ${openshift.selector('bc', "${app_name}")}"
-    //           return openshift.selector('bc', "${app_name}").exists();
-    //         }
-    //       }
-    //     }
-    //   }
+    stage('update App') {
+      when {
+        expression {
+          openshift.withCluster("MiniShift"){
+            openshift.withProject(){
+              // echo "check ${openshift.selector('bc', "${app_name}")}"
+              return openshift.selector('bc', "${app_name}").exists();
+            }
+          }
+        }
+      }
 
-    //   steps {
-    //     script {
-    //       openshift.withCluster("MiniShift"){
-    //         //openshift.newApp('https://github.com/Madomur/rails-ex.git').narrow('bc')
-    //         openshift.withProject(){
-    //           def bc = openshift.selector('bc', "${app_name}")
-    //           bc.describe()
-    //           echo "update new App ${openshift.project()} in cluster ${openshift.cluster()}"
-    //           // bc.startBuild()
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
+      steps {
+        script {
+          openshift.withCluster("MiniShift"){
+            //openshift.newApp('https://github.com/Madomur/rails-ex.git').narrow('bc')
+            openshift.withProject(){
+              def bc = openshift.selector('bc', "${app_name}")
+              bc.describe()
+              echo "update new App ${openshift.project()} in cluster ${openshift.cluster()}"
+              bc.startBuild()
+            }
+          }
+        }
+      }
+    }
 
     // stage ('deploy APP') {
     //   steps {
